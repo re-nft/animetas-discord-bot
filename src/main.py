@@ -3,6 +3,7 @@ import dotenv
 import os
 
 import cogs
+from api import run_web_server
 from client import client as bot
 from utils.logger import logger
 from utils.utils import set_start_time, get_uptime
@@ -35,6 +36,8 @@ async def on_ready():
                     for server in bot.guilds))
 
     logger.info(f"Startup completed in {round(get_uptime(),3)}s")
+
+run_web_server()
 
 try:
     bot.run(os.environ.get("TOKEN"))

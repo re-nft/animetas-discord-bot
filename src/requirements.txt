@@ -12,14 +12,24 @@ attrs==21.2.0
     # via aiohttp
 chardet==4.0.0
     # via aiohttp
+click==8.0.1
+    # via flask
 discord==1.7.3
     # via -r requirements.in
 discord.py==1.7.3
     # via discord
 flake8==3.9.2
     # via -r requirements.in
+flask==2.0.1
+    # via -r requirements.in
 idna==3.2
     # via yarl
+itsdangerous==2.0.1
+    # via flask
+jinja2==3.0.1
+    # via flask
+markupsafe==2.0.1
+    # via jinja2
 mccabe==0.6.1
     # via flake8
 multidict==5.1.0
@@ -40,5 +50,7 @@ typing-extensions==3.10.0.2
     # via
     #   aiohttp
     #   mypy
+werkzeug==2.0.1
+    # via flask
 yarl==1.6.3
     # via aiohttp
