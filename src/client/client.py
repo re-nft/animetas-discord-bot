@@ -46,4 +46,7 @@ async def set_before_command(ctx: commands.Context):
 async def log_after_command(ctx: commands.Context):
     time_taken_ms = (time.perf_counter() - ctx.invoke_time)*1000
     logger.debug(
-        f"Invoked command {ctx.command} in ({round(time_taken_ms, 2)} ms) at {ctx.message.jump_url}")
+        "Invoked command {} in ({} ms) at {}".format(
+            ctx.command,
+            round(time_taken_ms, 2),
+            ctx.message.jump_url))

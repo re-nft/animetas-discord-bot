@@ -4,7 +4,6 @@ import os
 
 import cogs
 from client import client as bot
-from config import cfg
 from utils.logger import logger
 from utils.utils import set_start_time, get_uptime
 

@@ -1,4 +1,3 @@
-import discord
 import logging
 
 logger = logging.getLogger('discord')

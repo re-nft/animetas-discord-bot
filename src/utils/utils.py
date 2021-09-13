@@ -1,5 +1,7 @@
 import time
 
+startup_time: float = 0.0
+
 
 def set_start_time(time: float):
     """
