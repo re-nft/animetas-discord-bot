@@ -5,14 +5,10 @@ from utils.logger import logger
 import time
 import os
 
-prefix = "!"
-if cfg["Settings"]["prefix"]:
-    prefix = cfg["Settings"]["prefix"]
-
 intents = discord.Intents.all()
 
 client = commands.Bot(
-    command_prefix=prefix,
+    command_prefix=cfg["Settings"]["prefix"],
     case_insensitive=True,
     help_command=commands.DefaultHelpCommand(),
     intents=intents,

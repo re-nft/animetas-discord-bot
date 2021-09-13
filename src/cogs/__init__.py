@@ -1,3 +1,3 @@
-from .general import General
+from .general import General, Wallet
 
-cogs = [General]
+cogs = [General, Wallet]
