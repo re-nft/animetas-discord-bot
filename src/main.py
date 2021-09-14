@@ -1,12 +1,15 @@
+import asyncio
 import time
 import dotenv
 import os
+import signal
 
 import cogs
-from api import run_web_server
+from api import app
 from client import client as bot
+from config import cfg
 from utils.logger import logger
-from utils.utils import set_start_time, get_uptime
+from utils.utils import set_start_time, get_uptime, shutdown
 
 from discord import HTTPException
 
@@ -37,10 +40,21 @@ async def on_ready():
 
     logger.info(f"Startup completed in {round(get_uptime(),3)}s")
 
-run_web_server()
+# TODO: Fix killing the bot
+signals = (signal.SIGHUP, signal.SIGTERM, signal.SIGINT)
+for s in signals:
+    bot.loop.add_signal_handler(
+        s, lambda s=s: asyncio.create_task(shutdown(s, bot.loop)))
 
 try:
+    bot.loop.create_task(app.run_task(
+        host="0.0.0.0", port=cfg["Settings"]["api_port"]))
     bot.run(os.environ.get("TOKEN"))
 except HTTPException:
     # restart on HTTP 429 Too Many Requests
     os.system("kill 1")
+except KeyboardInterrupt:
+    logger.info("Process interrupted")
+finally:
+    bot.loop.close()
+    logger.info("Successfuly shutdown reNFT Animetas service")

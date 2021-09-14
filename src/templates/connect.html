@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="{{url_for('static', filename='web3.min.js')}}"></script>
+  </head>
+  <body>
+    <button onclick="connectToWallet()">Connect Wallet</button>
+  </body>
+  <script>
+    const userId = "{{ user_id }}";
+    const guildId = "{{ guild_id }}";
+    const connectUrl = "{{ url_for('post_connect') }}";
+  </script>
+  <script src="{{url_for('static', filename='verify.js')}}"></script>
+</html>

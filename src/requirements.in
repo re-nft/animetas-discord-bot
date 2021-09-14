@@ -1,4 +1,7 @@
+asgiref
 discord
-flask
-mypy
+eth-account
+quart
+web3
 flake8
+mypy
