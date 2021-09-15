@@ -48,7 +48,7 @@ for s in signals:
 
 try:
     bot.loop.create_task(app.run_task(
-        host="0.0.0.0", port=int(cfg["Settings"]["api_port"])))
+        host="0.0.0.0", port=int(cfg["Settings"]["local_api_port"])))
     bot.run(os.environ.get("TOKEN"))
 except HTTPException:
     # restart on HTTP 429 Too Many Requests

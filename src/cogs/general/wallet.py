@@ -12,7 +12,7 @@ class Wallet(commands.Cog):
     async def verify(self, ctx: commands.Context):
         url = cfg["Settings"]["api_base_url"] + \
             ":" + \
-            cfg["Settings"]["api_port"] + \
+            cfg["Settings"]["public_api_port"] + \
             "/connect?userid=" + str(ctx.author.id) + \
             "&guildid="+str(ctx.guild.id)
 
