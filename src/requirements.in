@@ -1,0 +1,9 @@
+asgiref
+discord
+eth-account
+quart
+requests
+types-requests
+web3
+flake8
+mypy

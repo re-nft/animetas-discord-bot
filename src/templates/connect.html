@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="{{url_for('static', filename='web3.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"
+    />
+  </head>
+  <body>
+    <button onclick="connectToWallet()">Verify Holdership/Renting</button>
+  </body>
+  <script>
+    const userId = "{{ user_id }}";
+    const guildId = "{{ guild_id }}";
+    const connectUrl = "{{ url_for('post_connect') }}";
+  </script>
+  <script src="{{url_for('static', filename='verify.js')}}"></script>
+</html>

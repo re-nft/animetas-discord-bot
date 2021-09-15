@@ -1,0 +1,34 @@
+name: bot
+
+on:
+  push:
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.8']
+    name: Testing with python ${{ matrix.python }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install requirements
+        working-directory: src
+        run: pip install -r requirements.txt
+      - name: Lint with flake8
+        working-directory: src
+        run: flake8
+      - name: Run static type analyzer
+        working-directory: src
+        run: mypy main.py
