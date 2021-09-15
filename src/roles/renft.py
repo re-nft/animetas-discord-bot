@@ -4,33 +4,37 @@ from typing import List, Set
 import requests
 from config import cfg
 
-dotenv.load_dotenv()
-api_key = os.environ.get("THE_GRAPH_API_KEY", "")
-url = cfg["Settings"]["renft_query_url"].replace(
-    "[api-key]", api_key)
+url = cfg["Settings"]["renft_query_url"]
 
 
 def transform_rentings_to_nft_addresses(rentings: List[dict]) -> Set[str]:
     def transform_renting_to_nft_address(renting: dict) -> str:
-        return renting["nft"]["lending"]["nftAddress"]
+        return renting["lending"]["nftAddress"]
 
     return set(map(transform_renting_to_nft_address, rentings))
 
 
 def get_rented_nft_addresses_for_wallet(address: str) -> Set[str]:
-    query = """query {
-      rentings(renterAddress: "%s") {
-        nft {
+    query = """
+    {
+      user(id:"%s") {
+        renting {
           lending {
-            nftAddress
+          	nftAddress
           }
         }
       }
-    }""" % address
-    res = requests.post(url, query)
+    }
+    """ % address
+    body = {"query": query}
+
+    print(body)
+    res = requests.post(url, json=body)
     res.raise_for_status()
-    rentings = res.json()["data"]["rentings"]
-    return transform_rentings_to_nft_addresses(rentings)
+    user = res.json()["data"]["user"]
+    if user is None or user["rentings"] is None:
+        return set()
+    return transform_rentings_to_nft_addresses(user["rentings"])
 
 
 def verify_address_has_animetas_nft(address: str) -> bool:

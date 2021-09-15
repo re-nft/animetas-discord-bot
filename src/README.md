@@ -15,6 +15,5 @@ In `src/.env` put this:
 
 ```
 TOKEN=<discord-bot-token>
-THE_GRAPH_API_KEY=<the-graph-api-key>
 INFURA_PROJECT_ID=<infura-project-id>
 ``
