@@ -1,6 +1,7 @@
 asgiref
 discord
 eth-account
+python-dotenv
 quart
 requests
 types-requests
