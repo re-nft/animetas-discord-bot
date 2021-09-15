@@ -42,8 +42,6 @@ async def shutdown(signal, loop):
 async def send_embed_dm(member: discord.Member,
                         embed: discord.Embed,
                         ctx: Optional[commands.Context] = None):
-    print(type(member))
-    print(member)
     try:
         await member.send(embed=embed)
     except Exception as e:

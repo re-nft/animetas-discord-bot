@@ -1,8 +1,9 @@
 import json
 import discord
+from discord.utils import get
 from web3.auto import w3
 from eth_account.messages import encode_defunct
-from renft.renft import verify_address_has_animetas_nft
+from roles.roles import get_roles_to_assign, assign_roles
 from utils.utils import send_embed_dm, get_guild, get_member
 from config import cfg
 from quart import Quart, Response, redirect, request, render_template
@@ -47,7 +48,17 @@ async def post_connect():
         return Response(json.dumps(err_body),
                         status=400, mimetype="application/json")
 
-    if verify_address_has_animetas_nft(address):
+    roles = []
+    try:
+        roles = get_roles_to_assign(address)
+    except Exception as e:
+        err_body = {"success": False,
+                    "message":
+                    f"{e}"}
+        return Response(json.dumps(err_body),
+                        status=500, mimetype="application/json")
+
+    if len(roles) > 0:
         guild = get_guild(body["guildId"])
         if guild is None:
             err_body = {"success": False,
@@ -64,6 +75,17 @@ async def post_connect():
                         "User ID is incorrect."}
             return Response(json.dumps(err_body),
                             status=400, mimetype="application/json")
+        discord_roles = list(
+            map(lambda role: get(guild.roles, name=role), roles))
+        for i, role in enumerate(discord_roles):
+            if role is None:
+                err_body = {"success": False,
+                            "message":
+                            f"Role {roles[i]} does not exist."}
+                return Response(json.dumps(err_body),
+                                status=500, mimetype="application/json")
+
+        await assign_roles(member, discord_roles)
 
         title = "Wallet Connected"
         body = ("Wallet is connected. " "Please check assigned roles in "
@@ -75,7 +97,8 @@ async def post_connect():
         await send_embed_dm(member, embed)
     else:
         return {"success": False, "message":
-                "You have not rented a Animetas or Animonkey NFT."}
+                ("You have not rented an NFT from the Animetas"
+                    "or Animonkey collection, or hold $ANMK/$ANMT.")}
 
     return {"success": True, "message": "Your wallet has been verified."}
 

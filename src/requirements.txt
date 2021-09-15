@@ -28,7 +28,7 @@ certifi==2021.5.30
     # via requests
 chardet==4.0.0
     # via aiohttp
-charset-normalizer==2.0.4
+charset-normalizer==2.0.5
     # via requests
 click==8.0.1
     # via quart
@@ -144,6 +144,7 @@ quart==0.15.1
     # via -r requirements.in
 requests==2.26.0
     # via
+    #   -r requirements.in
     #   ipfshttpclient
     #   web3
 rlp==2.0.1
@@ -163,6 +164,8 @@ toml==0.10.2
     #   quart
 toolz==0.11.1
     # via cytoolz
+types-requests==2.25.6
+    # via -r requirements.in
 typing-extensions==3.10.0.2
     # via
     #   aiohttp
