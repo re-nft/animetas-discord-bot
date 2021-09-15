@@ -1,5 +1,3 @@
-import dotenv
-import os
 from typing import List, Set
 import requests
 from config import cfg
@@ -20,7 +18,7 @@ def get_rented_nft_addresses_for_wallet(address: str) -> Set[str]:
       user(id:"%s") {
         renting {
           lending {
-          	nftAddress
+            nftAddress
           }
         }
       }
