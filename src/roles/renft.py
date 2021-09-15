@@ -5,11 +5,11 @@ from config import cfg
 url = cfg["Settings"]["renft_query_url"]
 
 
-def transform_rentings_to_nft_addresses(rentings: List[dict]) -> Set[str]:
+def transform_rentings_to_nft_addresses(renting: List[dict]) -> Set[str]:
     def transform_renting_to_nft_address(renting: dict) -> str:
         return renting["lending"]["nftAddress"]
 
-    return set(map(transform_renting_to_nft_address, rentings))
+    return set(map(transform_renting_to_nft_address, renting))
 
 
 def get_rented_nft_addresses_for_wallet(address: str) -> Set[str]:
@@ -29,9 +29,9 @@ def get_rented_nft_addresses_for_wallet(address: str) -> Set[str]:
     res = requests.post(url, json=body)
     res.raise_for_status()
     user = res.json()["data"]["user"]
-    if user is None or user["rentings"] is None:
+    if user is None or user["renting"] is None:
         return set()
-    return transform_rentings_to_nft_addresses(user["rentings"])
+    return transform_rentings_to_nft_addresses(user["renting"])
 
 
 def verify_address_has_animetas_nft(address: str) -> bool:
