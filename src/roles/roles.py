@@ -1,6 +1,5 @@
 import discord
 from config import cfg
-from requests.exceptions import HTTPError
 from typing import List
 from .animetas import verify_wallet_has_any_valid_token
 from .renft import verify_address_has_animetas_nft

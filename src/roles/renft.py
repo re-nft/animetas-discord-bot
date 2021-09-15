@@ -1,11 +1,11 @@
+import dotenv
 import os
 from typing import List, Set
 import requests
 from config import cfg
 
-api_key = os.environ.get("THE_GRAPH_API_KEY")
-if api_key is None:
-    api_key = ""
+dotenv.load_dotenv()
+api_key = os.environ.get("THE_GRAPH_API_KEY", "")
 url = cfg["Settings"]["renft_query_url"].replace(
     "[api-key]", api_key)
 

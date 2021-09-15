@@ -108,7 +108,8 @@ async def connect():
     # TODO: handle lack of query parameter
     user_id = request.args.get("userid")
     guild_id = request.args.get("guildid")
-    return await render_template('connect.html', user_id=user_id, guild_id=guild_id)
+    return await render_template('connect.html', user_id=user_id,
+                                 guild_id=guild_id)
 
 
 @app.route('/', methods=['GET'])
