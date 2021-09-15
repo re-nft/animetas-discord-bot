@@ -5,7 +5,7 @@ from utils.logger import logger
 import time
 import os
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
 
 client = commands.Bot(
     command_prefix=cfg["Settings"]["prefix"],

@@ -28,7 +28,6 @@ def get_rented_nft_addresses_for_wallet(address: str) -> Set[str]:
     """ % address
     body = {"query": query}
 
-    print(body)
     res = requests.post(url, json=body)
     res.raise_for_status()
     user = res.json()["data"]["user"]
