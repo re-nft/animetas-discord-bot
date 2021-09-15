@@ -6,6 +6,7 @@ import time
 import os
 
 intents = discord.Intents.default()
+intents.members = True
 
 client = commands.Bot(
     command_prefix=cfg["Settings"]["prefix"],
