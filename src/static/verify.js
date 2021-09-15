@@ -48,4 +48,9 @@ async function connectToWallet() {
   console.log(guildId);
   const resBody = await verifyWithServer(address, signature, userId, guildId);
   console.log(resBody);
+  if (resBody.success === true) {
+    alertify.success(resBody.message);
+  } else {
+    alertify.error(resBody.message);
+  }
 }
