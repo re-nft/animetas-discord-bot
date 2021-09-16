@@ -2,14 +2,14 @@ import discord
 from config import cfg
 from typing import List
 from .animetas import verify_wallet_has_any_valid_token
-from .renft import verify_address_has_animetas_nft
+from .renft import verify_address_currently_rents_configured_nfts
 
 
 def get_roles_to_assign(address: str) -> List[str]:
     roles = set()
     if verify_wallet_has_any_valid_token(address):
         roles.add(cfg["Settings"]["token_holder_role"])
-    if verify_address_has_animetas_nft(address):
+    if verify_address_currently_rents_configured_nfts(address):
         roles.add(cfg["Settings"]["renting_role"])
     return list(roles)
 
