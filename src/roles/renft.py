@@ -45,19 +45,14 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
     return set(map(transform_renting_item_to_dataclass, user["renting"]))
 
 
-def get_rented_configured_addresses(address: str,
-                                    renting: Set[Renting]) -> Set[str]:
+def get_rented_with_configured_addresses(renting:
+                                         Set[Renting]) -> Set[Renting]:
     animonkey_address = "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
     animetas_address = "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5"
-
-    nft_addresses = set(
-        map(lambda renting_item: renting_item.nft_address, renting))
-
     valid_addresses = {animonkey_address, animetas_address}
-    intersected = nft_addresses.intersection(valid_addresses)
-    if len(intersected) > 0:
-        return set(intersected)
-    return set()
+
+    return set(
+        filter(lambda item: item.nft_address in valid_addresses, renting))
 
 
 def is_currently_renting(renting: Renting) -> bool:
@@ -70,12 +65,6 @@ def is_currently_renting(renting: Renting) -> bool:
 
 
 def verify_address_currently_rents_configured_nfts(address: str) -> bool:
-    renting = get_renting_for_wallet(address)
-    addresses = get_rented_configured_addresses(address, renting)
-    if len(addresses) == 0:
-        return False
-    renting = set(
-        filter(lambda item: item.nft_address in addresses, list(renting)))
-    if any(list(map(is_currently_renting, renting))):
-        return True
-    return False
+    renting = get_rented_with_configured_addresses(
+        get_renting_for_wallet(address))
+    return any(list(map(is_currently_renting, renting)))
