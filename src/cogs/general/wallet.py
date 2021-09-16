@@ -9,7 +9,7 @@ class Wallet(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def verify(self, ctx: commands.Context):
+    async def renft(self, ctx: commands.Context):
         url = cfg["Settings"]["api_base_url"] + \
             ":" + \
             cfg["Settings"]["public_api_port"] + \
