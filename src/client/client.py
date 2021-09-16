@@ -29,9 +29,10 @@ async def on_error(event, *args, **kwargs):
 
 
 @client.event
-async def on_command_error(ctx: commands.Context, exception):
-    await ctx.send(f"Error: {exception}", reference=ctx.message)
-    logger.exception("Command Error", exc_info=exception)
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        return
+    logger.error(error)
 
 
 @client.before_invoke
