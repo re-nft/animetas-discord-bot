@@ -1,10 +1,9 @@
 import json
 import discord
-from discord.utils import get
 from web3.auto import w3
 from eth_account.messages import encode_defunct
-from roles.roles import get_roles_to_assign, assign_roles
-from utils.utils import send_embed_dm, get_guild, get_member
+from roles.roles import get_discord_user, assign_roles
+from utils.utils import send_embed_dm
 from config import cfg
 from quart import Quart, Response, redirect, request, render_template
 
@@ -48,9 +47,10 @@ async def post_connect():
         return Response(json.dumps(err_body),
                         status=400, mimetype="application/json")
 
-    roles = []
     try:
-        roles = get_roles_to_assign(address)
+        discord_user = get_discord_user(
+            body["guildId"], body["userId"], address)
+        guild_name = discord_user.guild.name
     except Exception as e:
         err_body = {"success": False,
                     "message":
@@ -58,34 +58,8 @@ async def post_connect():
         return Response(json.dumps(err_body),
                         status=500, mimetype="application/json")
 
-    if len(roles) > 0:
-        guild = get_guild(body["guildId"])
-        if guild is None:
-            err_body = {"success": False,
-                        "message":
-                        "Discord Guild ID is incorrect."}
-            return Response(json.dumps(err_body),
-                            status=400, mimetype="application/json")
-        guild_name = guild.name
-
-        member = get_member(body["userId"], guild)
-        if member is None:
-            err_body = {"success": False,
-                        "message":
-                        "User ID is incorrect."}
-            return Response(json.dumps(err_body),
-                            status=400, mimetype="application/json")
-        discord_roles = list(
-            map(lambda role: get(guild.roles, name=role), roles))
-        for i, role in enumerate(discord_roles):
-            if role is None:
-                err_body = {"success": False,
-                            "message":
-                            f"Role {roles[i]} does not exist."}
-                return Response(json.dumps(err_body),
-                                status=500, mimetype="application/json")
-
-        await assign_roles(member, discord_roles)
+    if len(discord_user.roles) > 0:
+        await assign_roles(discord_user.member, list(discord_user.roles))
 
         title = "Wallet Connected"
         body = ("Wallet is connected. " "Please check assigned roles in "
@@ -94,7 +68,7 @@ async def post_connect():
         colour = int(cfg["Settings"]["colour"], 16)
         embed = discord.Embed(title=title, description=body, colour=colour)
 
-        await send_embed_dm(member, embed)
+        await send_embed_dm(discord_user.member, embed)
     else:
         return {"success": False, "message":
                 ("You have not rented an NFT from the Animetas"
