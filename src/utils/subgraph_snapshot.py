@@ -20,13 +20,7 @@ def take_snapshot():
         orderBy: lenderAddress,
         orderDirection: desc
       ) {
-        id
-        nftAddress
-        tokenID
         lenderAddress
-        maxRentDuration
-        dailyRentPrice
-        paymentToken
       }
     }
     """
@@ -34,10 +28,10 @@ def take_snapshot():
 
     res = requests.post(url, json=body)
     res.raise_for_status()
-    lendings = res.json()["data"]["lendings"]
+    lendings = map(lambda x: x["lenderAddress"], res.json()["data"]["lendings"])
 
     with open("animetas_lenders_snapshot.json", "w+") as f:
-        f.write(json.dumps(lendings, indent=4))
+        f.write(json.dumps(list(lendings), indent=4))
 
 
 if __name__ == "__main__":
