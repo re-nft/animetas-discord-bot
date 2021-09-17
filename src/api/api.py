@@ -3,6 +3,7 @@ import discord
 from web3.auto import w3
 from eth_account.messages import encode_defunct
 from roles.roles import get_discord_user, assign_roles
+from roles.db import add_guild_id, add_user
 from utils.utils import send_embed_dm
 from config import cfg
 from quart import Quart, Response, redirect, request, render_template
@@ -37,6 +38,8 @@ async def post_connect():
     """
     body = await request.json
     address = body["address"].lower()
+    add_guild_id(body["guildId"])
+    add_user(body["guildId"], body["userId"], address)
     recovered_address = w3.eth.account.recover_message(
         encode_defunct(text=body["message"]),
         signature=body["signature"]).lower()
@@ -58,8 +61,9 @@ async def post_connect():
         return Response(json.dumps(err_body),
                         status=500, mimetype="application/json")
 
-    if len(discord_user.roles) > 0:
-        await assign_roles(discord_user.member, list(discord_user.roles))
+    if len(discord_user.proposed_roles) > 0:
+        await assign_roles(discord_user.member,
+                           list(discord_user.proposed_roles))
 
         title = "Wallet Connected"
         body = ("Wallet is connected. " "Please check assigned roles in "
