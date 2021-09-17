@@ -83,8 +83,7 @@ async def check_roles_hourly():
                 for member in role.members:
                     address = get_address(guild_id, str(member.id))
                     if address is None:
-                        # TODO: Remove role?
-                        # await unassign_roles(member, [role])
+                        await unassign_roles(member, [role])
                         print(
                             (f"Address is None for {member.name} "
                                 f"with guild id {guild_id} "
