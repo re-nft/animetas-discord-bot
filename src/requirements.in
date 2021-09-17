@@ -4,6 +4,7 @@ eth-account
 python-dotenv
 quart
 requests
+tinydb
 types-requests
 web3
 flake8
