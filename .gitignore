@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+animetas_lenders_snapshot.json
+.vscode/
