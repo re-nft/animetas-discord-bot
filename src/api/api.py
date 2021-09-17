@@ -38,8 +38,6 @@ async def post_connect():
     """
     body = await request.json
     address = body["address"].lower()
-    add_guild_id(body["guildId"])
-    add_user(body["guildId"], body["userId"], address)
     recovered_address = w3.eth.account.recover_message(
         encode_defunct(text=body["message"]),
         signature=body["signature"]).lower()
@@ -53,6 +51,8 @@ async def post_connect():
     try:
         discord_user = get_discord_user(
             body["guildId"], body["userId"], address)
+        add_guild_id(body["guildId"])
+        add_user(body["guildId"], body["userId"], address)
         guild_name = discord_user.guild.name
     except Exception as e:
         err_body = {"success": False,
