@@ -128,7 +128,7 @@ parsimonious==0.8.1
     # via eth-abi
 priority==2.0.0
     # via hypercorn
-protobuf==3.17.3
+protobuf==3.18.0
     # via web3
 pycodestyle==2.7.0
     # via flake8
@@ -158,7 +158,8 @@ six==1.16.0
     #   jsonschema
     #   multiaddr
     #   parsimonious
-    #   protobuf
+tinydb==4.5.1
+    # via -r requirements.in
 toml==0.10.2
     # via
     #   hypercorn
