@@ -18,7 +18,8 @@ def take_snapshot():
     {
       lendings(
         orderBy: lenderAddress,
-        orderDirection: desc
+        orderDirection: desc,
+        where: {nftAddress_in: ["0xa32422dfb5bf85b2084ef299992903eb93ff52b0"]}
       ) {
         lenderAddress
       }
