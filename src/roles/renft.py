@@ -6,6 +6,8 @@ from config import cfg
 
 url = cfg["Settings"]["renft_query_url"]
 
+DAYS_TO_SECONDS = 86400
+
 
 @dataclass(frozen=True)
 class Renting:
@@ -39,7 +41,7 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
         return set()
 
     def transform_renting_item_to_dataclass(renting_item: dict) -> Renting:
-        return Renting(renting_item["rentDuration"], renting_item["rentedAt"],
+        return Renting(int(renting_item["rentDuration"]), int(renting_item["rentedAt"]),
                        renting_item["lending"]["nftAddress"])
 
     return set(map(transform_renting_item_to_dataclass, user["renting"]))
@@ -56,10 +58,8 @@ def get_rented_with_configured_addresses(renting:
 
 
 def is_currently_renting(renting: Renting) -> bool:
-    DAYS_TO_SECONDS = 86400
-    rent_duration_s = renting.rent_duration * DAYS_TO_SECONDS
-    renting_end_time_s = renting.rented_at + rent_duration_s
-    # convert to int for precision in seconds
+    rent_duration_s = int(renting.rent_duration) * DAYS_TO_SECONDS
+    renting_end_time_s = int(renting.rented_at) + rent_duration_s
     current_time_s = int(time.time())
     return current_time_s < renting_end_time_s
 
