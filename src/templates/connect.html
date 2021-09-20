@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>reNFT Verification</title>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="{{url_for('static', filename='web3.min.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='favicon.ico')}}"
+      type="image/x-icon"
+    />
     <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"
@@ -14,7 +20,11 @@
     />
   </head>
   <body>
-    <button onclick="connectToWallet()">Verify Holdership/Renting</button>
+    <div class="app">
+      <button class="nft__button" onclick="connectToWallet()">
+        Verify Holdership/Renting
+      </button>
+    </div>
   </body>
   <script>
     const userId = "{{ user_id }}";
