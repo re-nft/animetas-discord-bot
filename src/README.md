@@ -16,6 +16,7 @@ In `src/.env` put this:
 ```
 PUBLIC_API_BASE_URL=<base-url>
 PUBLIC_API_PORT=<port>
+LOCAL_API_PORT=<port>
 TOKEN=<discord-bot-token>
 INFURA_PROJECT_ID=<infura-project-id>
 ``
