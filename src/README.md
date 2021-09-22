@@ -16,4 +16,6 @@ In `src/.env` put this:
 ```
 TOKEN=<discord-bot-token>
 INFURA_PROJECT_ID=<infura-project-id>
+GRAFANA_USER=<grafana-user>
+GRAFANA_PASS=<grafana-password>
 ``

@@ -2,6 +2,7 @@ asgiref
 discord
 eth-account
 python-dotenv
+python-logging-loki
 quart
 requests
 tinydb
