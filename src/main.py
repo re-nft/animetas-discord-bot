@@ -48,7 +48,10 @@ port = int(os.getenv("LOCAL_API_PORT", "5000"))
 
 try:
     bot.loop.create_task(app.run_task(
-        host="0.0.0.0", port=port))
+        host="0.0.0.0",
+        port=port,
+        certfile=os.getenv("CERT_FILE"),
+        keyfile=os.getenv("KEY_FILE")))
     bot.run(os.environ.get("TOKEN"))
 except HTTPException:
     # restart on HTTP 429 Too Many Requests

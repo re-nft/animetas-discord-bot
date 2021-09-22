@@ -22,3 +22,10 @@ INFURA_PROJECT_ID=<infura-project-id>
 GRAFANA_USER=<grafana-user>
 GRAFANA_PASS=<grafana-password>
 ``
+
+If using HTTPS, also add these to your `src/.env`:
+
+```
+CERT_FILE=<path-to-cert.pem>
+KEY_FILE=<path-to-key.pem>
+```
