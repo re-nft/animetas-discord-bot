@@ -1,7 +1,14 @@
+import os
 import discord
 from discord.ext import commands
+import dotenv
 from config import cfg
 from utils.utils import send_embed_dm
+
+dotenv.load_dotenv()
+
+base_url = os.getenv("PUBLIC_API_BASE_URL", "http://localhost")
+port = os.getenv("PUBLIC_API_PORT", "5000")
 
 
 class Wallet(commands.Cog):
@@ -10,9 +17,9 @@ class Wallet(commands.Cog):
 
     @commands.command()
     async def renft(self, ctx: commands.Context):
-        url = cfg["Settings"]["api_base_url"] + \
+        url = base_url + \
             ":" + \
-            cfg["Settings"]["public_api_port"] + \
+            port + \
             "/connect?userid=" + str(ctx.author.id) + \
             "&guildid="+str(ctx.guild.id)
 

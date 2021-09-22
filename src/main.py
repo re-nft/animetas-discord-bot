@@ -7,7 +7,6 @@ import signal
 import cogs
 from api import app
 from client import client as bot
-from config import cfg
 from utils.logger import logger
 from utils.utils import set_start_time, get_uptime, shutdown
 
@@ -45,11 +44,12 @@ signals = (signal.SIGHUP, signal.SIGTERM, signal.SIGINT)
 for s in signals:
     bot.loop.add_signal_handler(
         s, lambda s=s: asyncio.create_task(shutdown(s, bot.loop)))
+port = int(os.getenv("LOCAL_API_PORT", "5000"))
 
 try:
     bot.loop.create_task(app.run_task(
         host="0.0.0.0",
-        port=int(cfg["Settings"]["local_api_port"]),
+        port=port,
         certfile=os.getenv("CERT_FILE"),
         keyfile=os.getenv("KEY_FILE")))
     bot.run(os.environ.get("TOKEN"))
