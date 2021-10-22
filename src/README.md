@@ -21,6 +21,8 @@ TOKEN=<discord-bot-token>
 INFURA_PROJECT_ID=<infura-project-id>
 GRAFANA_USER=<grafana-user>
 GRAFANA_PASS=<grafana-password>
+DISCORD_BOT_ENABLED=<true or false>
+WEB_SERVER_ENABLED=<true or false>
 ``
 
 If using HTTPS, also add these to your `src/.env`:
