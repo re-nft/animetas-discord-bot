@@ -1,4 +1,4 @@
-# animetas-discord-bot
+# reNFT Discord Bot
 
 ## Adding/Updating Packages
 
@@ -8,12 +8,11 @@ If you are contributing, and would like to add a new library to the Python code,
 2. Update the `requirements.in` with the names of the new packages you want to add. (optional)
 3. Run `pip-compile requirements.in > requirements.txt`, or run `pip-compile requirements.in` and copy the output to replace the contents of `requirements.txt`.
 
-
 ## .env file
 
 In `src/.env` put this:
 
-```
+```env
 PUBLIC_API_BASE_URL=<base-url>
 PUBLIC_API_PORT=<port>
 LOCAL_API_PORT=<port>
@@ -23,11 +22,11 @@ GRAFANA_USER=<grafana-user>
 GRAFANA_PASS=<grafana-password>
 DISCORD_BOT_ENABLED=<true or false>
 WEB_SERVER_ENABLED=<true or false>
-``
-
-If using HTTPS, also add these to your `src/.env`:
-
 ```
+
+If using HTTPS, also add these:
+
+```env
 CERT_FILE=<path-to-cert.pem>
 KEY_FILE=<path-to-key.pem>
 ```
