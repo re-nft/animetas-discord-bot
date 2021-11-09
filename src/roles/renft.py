@@ -19,7 +19,8 @@ class Renting:
 
 
 def get_renting_for_wallet(address: str) -> Set[Renting]:
-    query = """
+    query = (
+        """
     {
       user(id:"%s") {
         renting {
@@ -31,7 +32,9 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
         }
       }
     }
-    """ % address
+    """
+        % address
+    )
     body = {"query": query}
 
     res = requests.post(url, json=body)
@@ -41,20 +44,21 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
         return set()
 
     def transform_renting_item_to_dataclass(renting_item: dict) -> Renting:
-        return Renting(int(renting_item["rentDuration"]), int(renting_item["rentedAt"]),
-                       renting_item["lending"]["nftAddress"])
+        return Renting(
+            int(renting_item["rentDuration"]),
+            int(renting_item["rentedAt"]),
+            renting_item["lending"]["nftAddress"],
+        )
 
     return set(map(transform_renting_item_to_dataclass, user["renting"]))
 
 
-def get_rented_with_configured_addresses(renting:
-                                         Set[Renting]) -> Set[Renting]:
+def get_rented_with_configured_addresses(renting: Set[Renting]) -> Set[Renting]:
     animonkey_address = "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
     animetas_address = "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5"
     valid_addresses = {animonkey_address, animetas_address}
 
-    return set(
-        filter(lambda item: item.nft_address in valid_addresses, renting))
+    return set(filter(lambda item: item.nft_address in valid_addresses, renting))
 
 
 def is_currently_renting(renting: Renting) -> bool:
@@ -65,6 +69,5 @@ def is_currently_renting(renting: Renting) -> bool:
 
 
 def verify_address_currently_rents_configured_nfts(address: str) -> bool:
-    renting = get_rented_with_configured_addresses(
-        get_renting_for_wallet(address))
+    renting = get_rented_with_configured_addresses(get_renting_for_wallet(address))
     return any(list(map(is_currently_renting, renting)))

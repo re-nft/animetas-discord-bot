@@ -17,11 +17,15 @@ class Wallet(commands.Cog):
 
     @commands.command()
     async def renft(self, ctx: commands.Context):
-        url = base_url + \
-            ":" + \
-            port + \
-            "/connect?userid=" + str(ctx.author.id) + \
-            "&guildid="+str(ctx.guild.id)
+        url = (
+            base_url
+            + ":"
+            + port
+            + "/connect?userid="
+            + str(ctx.author.id)
+            + "&guildid="
+            + str(ctx.guild.id)
+        )
 
         title = "Connect Your Wallet"
         body = f"To connect your wallet [click here]({url})."

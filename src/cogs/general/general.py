@@ -9,10 +9,11 @@ class General(commands.Cog):
     @commands.command()
     async def status(self, ctx: commands.Context):
         """Sends bot status"""
-        msg = ("**Uptime**: {}s\n"
-               "**Connected Servers**: {} server(s)\n"
-               "**Discord API Latency**: {}s").format(
-            round(get_uptime(), 1),
-            len(self.bot.guilds),
-            round(self.bot.latency, 4))
+        msg = (
+            "**Uptime**: {}s\n"
+            "**Connected Servers**: {} server(s)\n"
+            "**Discord API Latency**: {}s"
+        ).format(
+            round(get_uptime(), 1), len(self.bot.guilds), round(self.bot.latency, 4)
+        )
         await ctx.send(msg)

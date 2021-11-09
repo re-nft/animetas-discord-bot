@@ -15,8 +15,12 @@ def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
     padding = "000000000000000000000000"
     data = method_signature + padding + wallet_address[2:]
 
-    body = {"method": "eth_call", "id": 1, "jsonrpc": "2.0",
-            "params": [{"to": token_address, "data": data}, "latest"]}
+    body = {
+        "method": "eth_call",
+        "id": 1,
+        "jsonrpc": "2.0",
+        "params": [{"to": token_address, "data": data}, "latest"],
+    }
 
     url = "https://mainnet.infura.io/v3/" + project_id
     res = requests.post(url, json=body)
@@ -32,8 +36,7 @@ def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
 def verify_wallet_has_any_valid_token(address: str) -> bool:
     token_addresses = [animonkeys_token_address, animetas_token_address]
     for token_address in token_addresses:
-        has_token = verify_wallet_has_token(
-            address, token_address)
+        has_token = verify_wallet_has_token(address, token_address)
         if has_token:
             return True
     return False

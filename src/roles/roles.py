@@ -57,19 +57,17 @@ def get_discord_user(guild_id: str, user_id: str, address: str) -> DiscordUser:
     discord_roles: List[discord.Role] = []
 
     if len(roles) > 0:
-        discord_roles = list(
-            map(lambda role_name: get_role(guild, role_name), roles))
+        discord_roles = list(map(lambda role_name: get_role(guild, role_name), roles))
 
     return DiscordUser(guild, member, discord_roles)
 
 
 @loop(hours=1)
 async def check_roles_hourly():
-    role_names = {cfg["Settings"]["token_holder_role"]:
-                  verify_wallet_has_any_valid_token,
-                  cfg["Settings"]["renting_role"]:
-                  verify_address_currently_rents_configured_nfts
-                  }
+    role_names = {
+        cfg["Settings"]["token_holder_role"]: verify_wallet_has_any_valid_token,
+        cfg["Settings"]["renting_role"]: verify_address_currently_rents_configured_nfts,
+    }
     guild_ids = get_all_guild_ids()
     for guild_id in guild_ids:
         for role_name in role_names.keys():
@@ -85,9 +83,12 @@ async def check_roles_hourly():
                     if address is None:
                         await unassign_roles(member, [role])
                         print(
-                            (f"Address is None for {member.name} "
+                            (
+                                f"Address is None for {member.name} "
                                 f"with guild id {guild_id} "
-                                f"and user_id {str(member.id)}"))
+                                f"and user_id {str(member.id)}"
+                            )
+                        )
                     elif not fn(address):
                         await unassign_roles(member, [role])
 

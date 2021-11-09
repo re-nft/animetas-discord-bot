@@ -27,8 +27,7 @@ def get_uptime() -> float:
 async def shutdown(signal, loop):
     """Cleanup tasks tied to the service's shutdown."""
     logger.info(f"Received exit signal {signal.name}...")
-    tasks = [t for t in asyncio.all_tasks() if t is not
-             asyncio.current_task()]
+    tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
 
     [task.cancel() for task in tasks]
 
@@ -39,19 +38,22 @@ async def shutdown(signal, loop):
     logger.info("Loop stopped")
 
 
-async def send_embed_dm(member: discord.Member,
-                        embed: discord.Embed,
-                        ctx: Optional[commands.Context] = None):
+async def send_embed_dm(
+    member: discord.Member, embed: discord.Embed, ctx: Optional[commands.Context] = None
+):
     try:
         await member.send(embed=embed)
     except Exception as e:
         logger.error(e)
-        path = ("'Privacy Settings'" " -> "
-                "'Allow direct messages from server members.'")
+        path = (
+            "'Privacy Settings'" " -> " "'Allow direct messages from server members.'"
+        )
         if ctx is not None:
-            await ctx.send(("{} Please enable {} for this server "
-                            "to verify your account.").format(
-                member.mention, path))
+            await ctx.send(
+                (
+                    "{} Please enable {} for this server " "to verify your account."
+                ).format(member.mention, path)
+            )
 
 
 def get_guild(guild_id: str) -> Optional[discord.Guild]:

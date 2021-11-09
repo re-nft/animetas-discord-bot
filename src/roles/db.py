@@ -20,19 +20,14 @@ def add_guild_id(guild_id: str):
 
 
 def add_user(guild_id: str, user_id: str, address: str):
-    user_table.upsert({"guild_id": guild_id,
-                       "user_id": user_id, "address": address},
-                      User.fragment({"guild_id": guild_id,
-                                     "user_id": user_id})
-                      )
+    user_table.upsert(
+        {"guild_id": guild_id, "user_id": user_id, "address": address},
+        User.fragment({"guild_id": guild_id, "user_id": user_id}),
+    )
 
 
 def get_address(guild_id: str, user_id: str) -> Optional[str]:
-    doc = user_table.search(
-        User.fragment(
-            {"guild_id": guild_id,
-             "user_id": user_id}
-        ))
+    doc = user_table.search(User.fragment({"guild_id": guild_id, "user_id": user_id}))
     if doc == []:
         return None
     return doc[0]["address"]
