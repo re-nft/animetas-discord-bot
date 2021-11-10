@@ -1,10 +1,16 @@
 import asyncio
-import time
 import discord
+import dotenv
+import os
+import re
+import time
+from web3 import Web3
 from discord.ext import commands
 from utils.logger import logger
-from typing import Optional
+from typing import List, Optional
 from client import client as bot
+
+dotenv.load_dotenv()
 
 startup_time: float = 0.0
 
@@ -62,3 +68,11 @@ def get_guild(guild_id: str) -> Optional[discord.Guild]:
 
 def get_member(user_id: str, guild: discord.Guild) -> Optional[discord.Member]:
     return guild.get_member(int(user_id))
+
+
+def get_all_nft_addresses() -> List[str]:
+    prefix = "NFT_"
+    pattern = re.compile(r'{prefix}\w+'.format(prefix=prefix))
+    addresses = [val for key, val in os.environ.items() if pattern.match(key)
+                 and Web3.isAddress(val)]
+    return addresses
