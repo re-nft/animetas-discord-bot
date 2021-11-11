@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Animetas",
+    "guild_id": "856580239085142066",
+    "addresses": [
+      "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5",
+      "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
+    ]
+  },
+  {
+    "name": "botttest",
+    "guild_id": "471880385781956608",
+    "addresses": ["0xef0182dc0574cd5874494a120750fd222fdb909a"]
+  }
+]

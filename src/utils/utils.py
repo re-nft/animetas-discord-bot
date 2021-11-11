@@ -1,15 +1,11 @@
 import asyncio
 import discord
-import dotenv
-import os
-import re
+import json
 import time
-from web3 import Web3
 from discord.ext import commands
 from utils.logger import logger
 from typing import List, Optional
 from client import client as bot
-from env import get_env_file
 
 
 startup_time: float = 0.0
@@ -70,10 +66,28 @@ def get_member(user_id: str, guild: discord.Guild) -> Optional[discord.Member]:
     return guild.get_member(int(user_id))
 
 
-def get_all_nft_addresses() -> List[str]:
-    dotenv.load_dotenv(get_env_file())
-    prefix = "NFT_"
-    pattern = re.compile(r'{prefix}\w+'.format(prefix=prefix))
-    addresses = [val for key, val in os.environ.items() if pattern.match(key)
-                 and Web3.isAddress(val)]
-    return addresses
+def get_all_nft_addresses(guild_id: str) -> List[str]:
+    """
+    Assumes guild_nfts_config.json is valid
+
+    Example:
+
+    [
+      {
+        "name": "<name>",
+        "guild_id": "<guild_id>",
+        "addresses": ["<address0>", "<address1>"]
+      }
+    ]
+
+    """
+    try:
+        with open("guild_nfts_config.json", "r") as f:
+            data = json.load(f)
+            for server in data:
+                if server["guild_id"] == guild_id:
+                    return server["addresses"]
+            return []
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            "Config file not found. Please make sure guild-nfts_config.json exists.")

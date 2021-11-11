@@ -14,7 +14,7 @@ import dotenv
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "env_file", help="environment variable file to use", default=".env"
+    "--env-file", help="environment variable file to use", default=".env"
 )
 args = parser.parse_args()
 
