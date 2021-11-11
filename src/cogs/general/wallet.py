@@ -4,11 +4,7 @@ from discord.ext import commands
 import dotenv
 from config import cfg
 from utils.utils import send_embed_dm
-
-dotenv.load_dotenv()
-
-base_url = os.getenv("PUBLIC_API_BASE_URL", "http://localhost")
-port = os.getenv("PUBLIC_API_PORT", "5000")
+from env import get_env_file
 
 
 class Wallet(commands.Cog):
@@ -17,6 +13,11 @@ class Wallet(commands.Cog):
 
     @commands.command()
     async def renft(self, ctx: commands.Context):
+        dotenv.load_dotenv(get_env_file())
+
+        base_url = os.getenv("PUBLIC_API_BASE_URL", "http://localhost")
+        port = os.getenv("PUBLIC_API_PORT", "5000")
+
         url = (
             base_url
             + ":"

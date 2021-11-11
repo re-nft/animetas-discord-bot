@@ -3,12 +3,13 @@ import os
 import requests
 from web3 import Web3
 from utils.utils import get_all_nft_addresses
-
-dotenv.load_dotenv()
-project_id = os.environ.get("INFURA_PROJECT_ID", "")
+from env import get_env_file
 
 
 def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
+    dotenv.load_dotenv(get_env_file())
+    project_id = os.environ.get("INFURA_PROJECT_ID", "")
+
     method_signature = Web3.sha3(text="balanceOf(address)").hex()[0:10]
     padding = "000000000000000000000000"
     data = method_signature + padding + wallet_address[2:]

@@ -1,25 +1,29 @@
-import asyncio
-import time
-import dotenv
-import os
-import signal
-import argparse
-
-import cogs
-from api import app
-from client import client as bot
-from utils.logger import logger
-from utils.utils import set_start_time, get_uptime, shutdown
-
 from discord import HTTPException
+from utils.utils import set_start_time, get_uptime, shutdown
+from utils.logger import add_handlers, logger
+from client import client as bot
+from api import app
+from env import set_env_file
+import cogs
+import signal
+import os
+import time
+import asyncio
+import argparse
+import dotenv
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "env_file", help="environamnet variable file to use", default=".env"
+    "env_file", help="environment variable file to use", default=".env"
 )
 args = parser.parse_args()
 
-dotenv.load_dotenv(args.env_file)
+env_file = args.env_file
+set_env_file(env_file)
+dotenv.load_dotenv(env_file)
+add_handlers()
+
+
 set_start_time(time.perf_counter())
 
 for cog in cogs.cogs:

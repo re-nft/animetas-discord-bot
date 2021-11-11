@@ -9,8 +9,8 @@ from discord.ext import commands
 from utils.logger import logger
 from typing import List, Optional
 from client import client as bot
+from env import get_env_file
 
-dotenv.load_dotenv()
 
 startup_time: float = 0.0
 
@@ -71,6 +71,7 @@ def get_member(user_id: str, guild: discord.Guild) -> Optional[discord.Member]:
 
 
 def get_all_nft_addresses() -> List[str]:
+    dotenv.load_dotenv(get_env_file())
     prefix = "NFT_"
     pattern = re.compile(r'{prefix}\w+'.format(prefix=prefix))
     addresses = [val for key, val in os.environ.items() if pattern.match(key)
