@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Set
 import requests
 from config import cfg
+from utils.utils import get_all_nft_addresses
 
 url = cfg["Settings"]["renft_query_url"]
 
@@ -54,9 +55,7 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
 
 
 def get_rented_with_configured_addresses(renting: Set[Renting]) -> Set[Renting]:
-    animonkey_address = "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
-    animetas_address = "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5"
-    valid_addresses = {animonkey_address, animetas_address}
+    valid_addresses = set(get_all_nft_addresses())
 
     return set(filter(lambda item: item.nft_address in valid_addresses, renting))
 

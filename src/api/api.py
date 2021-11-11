@@ -11,7 +11,7 @@ from quart import Quart, Response, redirect, request, render_template
 app = Quart("")
 
 
-@app.route("/api/v1/animetas/connect", methods=["POST"])
+@app.route("/api/v1/nfts/connect", methods=["POST"])
 async def post_connect():
     """
     Uses a signature to recover the signer.
@@ -46,6 +46,12 @@ async def post_connect():
             "success": False,
             "message": "Address, message or signature is incorrect.",
         }
+        return Response(json.dumps(err_body), status=400, mimetype="application/json")
+    if body["guildId"] == "None" or not body["guildId"].isdecimal():
+        err_body = {"success": False, "message": "Invalid guildId provided"}
+        return Response(json.dumps(err_body), status=400, mimetype="application/json")
+    if body["userId"] == "None" or not body["userId"].isdecimal():
+        err_body = {"success": False, "message": "Invalid userId provided"}
         return Response(json.dumps(err_body), status=400, mimetype="application/json")
 
     try:
@@ -87,4 +93,4 @@ async def connect():
 
 @app.route("/", methods=["GET"])
 def home():
-    return redirect("https://animetas.renft.io/")
+    return redirect("https://www.renft.io/")

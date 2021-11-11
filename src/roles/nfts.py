@@ -2,12 +2,10 @@ import dotenv
 import os
 import requests
 from web3 import Web3
+from utils.utils import get_all_nft_addresses
 
 dotenv.load_dotenv()
 project_id = os.environ.get("INFURA_PROJECT_ID", "")
-
-animonkeys_token_address = "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
-animetas_token_address = "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5"
 
 
 def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
@@ -34,7 +32,7 @@ def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
 
 
 def verify_wallet_has_any_valid_token(address: str) -> bool:
-    token_addresses = [animonkeys_token_address, animetas_token_address]
+    token_addresses = get_all_nft_addresses()
     for token_address in token_addresses:
         has_token = verify_wallet_has_token(address, token_address)
         if has_token:

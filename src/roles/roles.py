@@ -6,7 +6,7 @@ from config import cfg
 from typing import List, Optional
 from utils.utils import get_guild, get_member
 from utils.logger import logger
-from .animetas import verify_wallet_has_any_valid_token
+from .nfts import verify_wallet_has_any_valid_token
 from .renft import verify_address_currently_rents_configured_nfts
 from roles.db import get_all_guild_ids, get_address
 

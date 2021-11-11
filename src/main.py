@@ -3,6 +3,7 @@ import time
 import dotenv
 import os
 import signal
+import argparse
 
 import cogs
 from api import app
@@ -12,8 +13,13 @@ from utils.utils import set_start_time, get_uptime, shutdown
 
 from discord import HTTPException
 
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "env_file", help="environamnet variable file to use", default=".env"
+)
+args = parser.parse_args()
 
-dotenv.load_dotenv()
+dotenv.load_dotenv(args.env_file)
 set_start_time(time.perf_counter())
 
 for cog in cogs.cogs:
