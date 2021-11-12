@@ -11,11 +11,11 @@ from .renft import verify_address_currently_rents_configured_nfts
 from roles.db import get_all_guild_ids, get_address
 
 
-def get_roles_to_assign(address: str) -> List[str]:
+def get_roles_to_assign(address: str, guild_id: str) -> List[str]:
     roles = set()
-    if verify_wallet_has_any_valid_token(address):
+    if verify_wallet_has_any_valid_token(address, guild_id):
         roles.add(cfg["Settings"]["token_holder_role"])
-    if verify_address_currently_rents_configured_nfts(address):
+    if verify_address_currently_rents_configured_nfts(address, guild_id):
         roles.add(cfg["Settings"]["renting_role"])
     return list(roles)
 
@@ -53,7 +53,7 @@ def get_discord_user(guild_id: str, user_id: str, address: str) -> DiscordUser:
         raise Exception("Member does not exist in guild.")
     member: discord.Member = _member
 
-    roles = get_roles_to_assign(address)
+    roles = get_roles_to_assign(address, guild_id)
     discord_roles: List[discord.Role] = []
 
     if len(roles) > 0:

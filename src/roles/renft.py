@@ -54,8 +54,9 @@ def get_renting_for_wallet(address: str) -> Set[Renting]:
     return set(map(transform_renting_item_to_dataclass, user["renting"]))
 
 
-def get_rented_with_configured_addresses(renting: Set[Renting]) -> Set[Renting]:
-    valid_addresses = set(get_all_nft_addresses())
+def get_rented_with_configured_addresses(renting: Set[Renting],
+                                         guild_id: str) -> Set[Renting]:
+    valid_addresses = set(get_all_nft_addresses(guild_id))
 
     return set(filter(lambda item: item.nft_address in valid_addresses, renting))
 
@@ -67,6 +68,7 @@ def is_currently_renting(renting: Renting) -> bool:
     return current_time_s < renting_end_time_s
 
 
-def verify_address_currently_rents_configured_nfts(address: str) -> bool:
-    renting = get_rented_with_configured_addresses(get_renting_for_wallet(address))
+def verify_address_currently_rents_configured_nfts(address: str, guild_id: str) -> bool:
+    renting = get_rented_with_configured_addresses(
+        get_renting_for_wallet(address), guild_id)
     return any(list(map(is_currently_renting, renting)))

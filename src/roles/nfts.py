@@ -32,8 +32,8 @@ def verify_wallet_has_token(wallet_address: str, token_address: str) -> bool:
     return False
 
 
-def verify_wallet_has_any_valid_token(address: str) -> bool:
-    token_addresses = get_all_nft_addresses()
+def verify_wallet_has_any_valid_token(address: str, guild_id: str) -> bool:
+    token_addresses = get_all_nft_addresses(guild_id)
     for token_address in token_addresses:
         has_token = verify_wallet_has_token(address, token_address)
         if has_token:

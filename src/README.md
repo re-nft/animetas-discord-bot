@@ -31,9 +31,16 @@ CERT_FILE=<path-to-cert.pem>
 KEY_FILE=<path-to-key.pem>
 ```
 
-To support NFT addresses, prefix the environment variable name with `NFT_`, for example:
+To support NFT addresses, edit `guild_nfts_config.json`.
 
-```
-NFT_ANIMETAS=0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5
-NFT_ANIMONKEYS=0xa32422dfb5bf85b2084ef299992903eb93ff52b0
+It is in the below format:
+
+```json
+[
+        {
+                "name": "<name>",
+                "guild_id": "<guild_id>",
+                "addresses": ["<address0>", "<address1>"]
+        }
+]
 ```
