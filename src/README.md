@@ -40,7 +40,9 @@ It is in the below format:
         {
                 "name": "<name>",
                 "guild_id": "<guild_id>",
-                "addresses": ["<address0>", "<address1>"]
+                "addresses": ["<address0>", "<address1>"],
+                "token_holder_role": "<token_holder_role>",
+                "renting_role": "<renting_role>",
         }
 ]
 ```

@@ -2,21 +2,21 @@ import discord
 from dataclasses import dataclass
 from discord.utils import get
 from discord.ext.tasks import loop
-from config import cfg
 from typing import List, Optional
 from utils.utils import get_guild, get_member
 from utils.logger import logger
 from .nfts import verify_wallet_has_any_valid_token
 from .renft import verify_address_currently_rents_configured_nfts
 from roles.db import get_all_guild_ids, get_address
+from utils.utils import get_token_holder_role, get_renting_role
 
 
 def get_roles_to_assign(address: str, guild_id: str) -> List[str]:
     roles = set()
     if verify_wallet_has_any_valid_token(address, guild_id):
-        roles.add(cfg["Settings"]["token_holder_role"])
+        roles.add(get_token_holder_role(guild_id))
     if verify_address_currently_rents_configured_nfts(address, guild_id):
-        roles.add(cfg["Settings"]["renting_role"])
+        roles.add(get_renting_role(guild_id))
     return list(roles)
 
 
@@ -64,12 +64,14 @@ def get_discord_user(guild_id: str, user_id: str, address: str) -> DiscordUser:
 
 @loop(hours=1)
 async def check_roles_hourly():
-    role_names = {
-        cfg["Settings"]["token_holder_role"]: verify_wallet_has_any_valid_token,
-        cfg["Settings"]["renting_role"]: verify_address_currently_rents_configured_nfts,
-    }
     guild_ids = get_all_guild_ids()
     for guild_id in guild_ids:
+        token_holder_role = get_token_holder_role(guild_id)
+        renting_role = get_renting_role(guild_id)
+        role_names = {
+            token_holder_role: verify_wallet_has_any_valid_token,
+            renting_role: verify_address_currently_rents_configured_nfts,
+        }
         for role_name in role_names.keys():
             fn = role_names[role_name]
             try:
@@ -89,10 +91,11 @@ async def check_roles_hourly():
                                 f"and user_id {str(member.id)}"
                             )
                         )
-                    elif not fn(address):
+                    elif not fn(address, guild_id):
                         await unassign_roles(member, [role])
 
             except Exception as e:
+                logger.error("Exception raised for Guild ID: {}".format(guild_id))
                 logger.exception(e)
 
 
