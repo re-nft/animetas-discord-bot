@@ -1,5 +1,5 @@
 var web3js;
-const message = "Connect wallet to Animetas Discord";
+const message = "Sign this message to prove ownership / rentership";
 
 window.addEventListener("load", function () {
   if (typeof window.ethereum !== "undefined") {
@@ -42,12 +42,7 @@ async function verifyWithServer(address, signature, userId, guildId) {
 async function connectToWallet() {
   const address = await initWeb3();
   const signature = await sign(address);
-  console.log(address);
-  console.log(signature);
-  console.log(userId);
-  console.log(guildId);
   const resBody = await verifyWithServer(address, signature, userId, guildId);
-  console.log(resBody);
   if (resBody.success === true) {
     alertify.success(resBody.message);
   } else {
