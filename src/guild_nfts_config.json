@@ -8,6 +8,11 @@
     ]
   },
   {
+    "name": "GalaxyFightClub",
+    "guild_id": "861529425937301504",
+    "addresses": ["0x3702f4c46785bbd947d59a2516ac1ea30f2babf2"]
+  },
+  {
     "name": "botttest",
     "guild_id": "471880385781956608",
     "addresses": ["0xef0182dc0574cd5874494a120750fd222fdb909a"]
