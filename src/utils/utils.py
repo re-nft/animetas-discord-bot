@@ -4,7 +4,7 @@ import json
 import time
 from discord.ext import commands
 from utils.logger import logger
-from typing import List, Optional
+from typing import List, Optional, TypedDict
 from client import client as bot
 
 
@@ -66,7 +66,15 @@ def get_member(user_id: str, guild: discord.Guild) -> Optional[discord.Member]:
     return guild.get_member(int(user_id))
 
 
-def get_all_nft_addresses(guild_id: str) -> List[str]:
+class GuildConfig(TypedDict):
+    name: str
+    guild_id: str
+    addresses: List[str]
+    token_holder_role: str
+    renting_role: str
+
+
+def get_config_for_guild(guild_id: str) -> Optional[GuildConfig]:
     """
     Assumes guild_nfts_config.json is valid
 
@@ -76,7 +84,9 @@ def get_all_nft_addresses(guild_id: str) -> List[str]:
       {
         "name": "<name>",
         "guild_id": "<guild_id>",
-        "addresses": ["<address0>", "<address1>"]
+        "addresses": ["<address0>", "<address1>"],
+        "token_holder_role": "<token_holder_role>",
+        "renting_role": "<renting_role>"
       }
     ]
 
@@ -84,10 +94,34 @@ def get_all_nft_addresses(guild_id: str) -> List[str]:
     try:
         with open("guild_nfts_config.json", "r") as f:
             data = json.load(f)
-            for server in data:
-                if server["guild_id"] == guild_id:
-                    return server["addresses"]
-            return []
+            for guild_config in data:
+                if guild_config["guild_id"] == guild_id:
+                    return guild_config
+            return None
     except FileNotFoundError:
         raise FileNotFoundError(
             "Config file not found. Please make sure guild-nfts_config.json exists.")
+
+
+def get_all_nft_addresses(guild_id: str) -> List[str]:
+    guild_config = get_config_for_guild(guild_id)
+    if guild_config is None:
+        return []
+    else:
+        return guild_config["addresses"]
+
+
+def get_token_holder_role(guild_id: str) -> str:
+    guild_config = get_config_for_guild(guild_id)
+    if guild_config is None:
+        raise Exception("Guild config not found")
+    else:
+        return guild_config["token_holder_role"]
+
+
+def get_renting_role(guild_id: str) -> str:
+    guild_config = get_config_for_guild(guild_id)
+    if guild_config is None:
+        raise Exception("Guild config not found")
+    else:
+        return guild_config["renting_role"]

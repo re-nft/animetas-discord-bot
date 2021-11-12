@@ -5,16 +5,22 @@
     "addresses": [
       "0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5",
       "0xa32422dfb5bf85b2084ef299992903eb93ff52b0"
-    ]
+    ],
+    "token_holder_role": "Token Holder",
+    "renting_role": "Renter"
   },
   {
     "name": "GalaxyFightClub",
     "guild_id": "861529425937301504",
-    "addresses": ["0x3702f4c46785bbd947d59a2516ac1ea30f2babf2"]
+    "addresses": ["0x3702f4c46785bbd947d59a2516ac1ea30f2babf2"],
+    "token_holder_role": "Token Holder",
+    "renting_role": "Renter"
   },
   {
     "name": "botttest",
     "guild_id": "471880385781956608",
-    "addresses": ["0xef0182dc0574cd5874494a120750fd222fdb909a"]
+    "addresses": ["0xef0182dc0574cd5874494a120750fd222fdb909a"],
+    "token_holder_role": "Token Holder",
+    "renting_role": "Renter"
   }
 ]
